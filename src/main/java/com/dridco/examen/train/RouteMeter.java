@@ -16,4 +16,7 @@ class RouteMeter implements GraphTraverseHandler<Integer, Number> {
 		return true;
 	}
 
+	@Override
+	public void stepUp() {}
+
 }

@@ -1,20 +1,17 @@
 package com.dridco.examen.graph;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 
-public class MatrixBackedGraph extends AbstractGraph<Integer, Number> {
+public class MatrixBackedGraph<E> extends AbstractGraph<Integer, E> {
 
-	private class NullSkipArrayIterator implements Iterator<Relation<Integer,Number>> {
+	private class NullSkipArrayIterator implements Iterator<Relation<Integer,E>> {
 		
-		private Number[] array;
+		private E[] array;
 		private int currIndex = 0;
 		
-		public NullSkipArrayIterator(Number[] array) {
+		public NullSkipArrayIterator(E[] array) {
 			this.array = array;
 		}
 
@@ -27,15 +24,15 @@ public class MatrixBackedGraph extends AbstractGraph<Integer, Number> {
 		}
 
 		@Override
-		public Relation<Integer,Number> next() {
+		public Relation<Integer,E> next() {
 			while (array[currIndex] == null && currIndex < array.length) {
 				currIndex++;
 			}
 			if(currIndex < array.length) {
-				final Number edge = array[currIndex];
+				final E edge = array[currIndex];
 				final Integer vertex = currIndex;
 				currIndex++;
-				return new Relation<Integer, Number>(){
+				return new Relation<Integer, E>(){
 
 					@Override
 					public Integer getVertex() {
@@ -43,7 +40,7 @@ public class MatrixBackedGraph extends AbstractGraph<Integer, Number> {
 					}
 
 					@Override
-					public Number getEdge() {
+					public E getEdge() {
 						return edge;
 					}};
 			} else {
@@ -58,14 +55,14 @@ public class MatrixBackedGraph extends AbstractGraph<Integer, Number> {
 
 	}
 
-	private Number graph[][];
+	private Object graph[][];
 	
 	public MatrixBackedGraph(int dimension) {
-		graph = new Number[dimension][dimension]; 
+		graph = new Object[dimension][dimension]; 
 	}
 
 	@Override
-	public void connectVertices(Integer origin, Integer target, Number edge) {
+	public void connectVertices(Integer origin, Integer target, E edge) {
 		graph[origin][target] = edge;
 	}
 
@@ -74,34 +71,17 @@ public class MatrixBackedGraph extends AbstractGraph<Integer, Number> {
 		graph[origin][target] = null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Iterator<com.dridco.examen.graph.Graph.Relation<Integer, Number>> getAdyacentVertices(Integer vertex) {
-		Number[] array = graph[vertex];
+	public Iterator<com.dridco.examen.graph.Graph.Relation<Integer, E>> getAdyacentVertices(Integer vertex) {
+		E[] array = (E[]) graph[vertex];
 		return new NullSkipArrayIterator(array);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Number getRelation(Integer from, Integer to) {
-		return graph[from][to];
+	public E getConnection(Integer from, Integer to) {
+		return (E) graph[from][to];
 	}
-	
-	private List<Integer> path = new ArrayList<Integer>();
-	private int dist = 0;
-	public void traverseDepthFirst(Integer origin, int maxDepth, GraphTraverseHandler<Integer, Number> handler) {
-		Iterator<Relation<Integer, Number>> adyacents = getAdyacentVertices(origin);
-		while (adyacents.hasNext() && maxDepth > 0) {
-			Graph.Relation<Integer,Number> relation = adyacents.next();
-			Integer vertex = relation.getVertex();
-			dist+=relation.getEdge().intValue(); 
-			path.add(vertex);
-			traverseDepthFirst(vertex, maxDepth-1, handler);
-			dist-=relation.getEdge().intValue(); 
-			path.remove(path.size()-1);
-		}
-		if(maxDepth == 0){
-			if(origin==2)
-			System.out.println(Arrays.toString(path.toArray()) + " : " + dist);
-		}
-	};
 
 }

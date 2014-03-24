@@ -1,10 +1,6 @@
 package com.dridco.examen.graph;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 public abstract class AbstractGraph<V, E> implements Graph<V, E> {
 
@@ -13,7 +9,7 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E> {
 		for (int i = 1; i < path.length; i++) {
 			V from = path[i-1];
 			V to = path[i];
-			E edge = getRelation(from, to);
+			E edge = getConnection(from, to);
 			if(edge == null) {
 				throw new InvalidPathException(from, to);
 			} 
@@ -22,19 +18,23 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E> {
 				break;
 			} 
 		}
-
 	}
 
 	@Override
-	public void traverseDepthFirst(V origin, int maxDepth, GraphTraverseHandler<V, E> handler) {
+	public void traverseDepthFirst(V origin, GraphTraverseHandler<V, E> handler) {
 		Iterator<Relation<V, E>> adyacents = getAdyacentVertices(origin);
-		while (adyacents.hasNext() && maxDepth > 0) {
+		while (adyacents.hasNext()) {
 			Graph.Relation<V,E> relation = adyacents.next();
 			V vertex = relation.getVertex();
-			handler.visit(vertex, relation.getEdge());
-			traverseDepthFirst(vertex, maxDepth-1, handler);
+			E edge = relation.getEdge();
+			boolean doContinue = handler.visit(vertex, edge);
+			if(doContinue){
+				traverseDepthFirst(vertex, handler);
+			} 
+			handler.stepUp();
 		}
 	};
+
 
 	@Override
 	public void traverseBreathFirst(V origin, int maxDepth, GraphTraverseHandler<V, E> handler) {

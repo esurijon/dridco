@@ -60,13 +60,32 @@ public class TrainRouterTest {
 
 	@Test
 	public void useCase6_Test() {
-		int routesCount = trainRouter.countRoutes('C', 'C', 3);
-		Assert.assertEquals(3, routesCount);
+		int routeCount = trainRouter.countRoutesWithMaxStops('C', 'C', 3);
+		Assert.assertEquals(2, routeCount);
 	}
 
 	@Test
 	public void useCase7_Test() {
-		int routesCount = trainRouter.countRoutes('A', 'C', 4);
+		int routeCount = trainRouter.countRoutesWithFixedStops('A', 'C', 4);
+		Assert.assertEquals(3, routeCount);
+	}
+
+	@Test
+	public void useCase8_Test() {
+		int routeDistance = trainRouter.calcShortestRoute('A', 'C');
+		Assert.assertEquals(9, routeDistance);
+	}
+
+	@Test
+	public void useCase9_Test() {
+		int routeDistance = trainRouter.calcShortestRoute('B', 'B');
+		Assert.assertEquals(9, routeDistance);
+	}
+
+	@Test
+	public void useCase10_Test() {
+//		int routeCount = trainRouter.countRoutesWithMaxDistance('C', 'C', 30);
+//		Assert.assertEquals(7, routeCount);
 	}
 }
 
