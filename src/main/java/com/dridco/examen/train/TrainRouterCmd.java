@@ -27,9 +27,9 @@ public class TrainRouterCmd {
 			if(true){
 				tr.calcRouteDistance(null);
 			} else if(false) {
-				tr.countRoutes('A', 'B', 1);
+//				tr.countRoutes('A', 'B', 1);
 			}else if(false) {
-				tr.calcShortestRoute(0, 0);
+//				tr.calcShortestRoute(0, 0);
 			}else {
 				System.out.println("Comando invalido");
 			}
