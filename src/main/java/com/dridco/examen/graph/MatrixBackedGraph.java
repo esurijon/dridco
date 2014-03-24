@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import com.dridco.examen.graph.Graph.Relation;
-
 
 public class MatrixBackedGraph extends AbstractGraph<Integer, Number> {
 
@@ -97,11 +95,12 @@ public class MatrixBackedGraph extends AbstractGraph<Integer, Number> {
 			dist+=relation.getEdge().intValue(); 
 			path.add(vertex);
 			traverseDepthFirst(vertex, maxDepth-1, handler);
+			dist-=relation.getEdge().intValue(); 
+			path.remove(path.size()-1);
 		}
 		if(maxDepth == 0){
+			if(origin==2)
 			System.out.println(Arrays.toString(path.toArray()) + " : " + dist);
-			dist = 0;
-			path = new ArrayList<Integer>();
 		}
 	};
 
