@@ -72,13 +72,13 @@ public class TrainRouterTest {
 
 	@Test
 	public void useCase8_Test() {
-		int routeDistance = trainRouter.calcShortestRoute('A', 'C');
+		int routeDistance = trainRouter.calcShortestRouteDistance('A', 'C');
 		Assert.assertEquals(9, routeDistance);
 	}
 
 	@Test
 	public void useCase9_Test() {
-		int routeDistance = trainRouter.calcShortestRoute('B', 'B');
+		int routeDistance = trainRouter.calcShortestRouteDistance('B', 'B');
 		Assert.assertEquals(9, routeDistance);
 	}
 
