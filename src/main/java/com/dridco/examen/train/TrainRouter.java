@@ -33,18 +33,18 @@ public class TrainRouter {
 	public int countRoutesWithFixedStops(char origin, char end, int stopsAmount){
 		int from = origin - 'A';
 		int to = end - 'A';
-		FixedLenghtRouteFinder routeCounter = new FixedLenghtRouteFinder(to, stopsAmount); 
-		graph.traverseDepthFirst(from, routeCounter);
-		List<Route> routes = routeCounter.getRoutes();
+		FixedLenghtRouteFinder routeFinder = new FixedLenghtRouteFinder(to, stopsAmount); 
+		graph.traverseDepthFirst(from, routeFinder);
+		List<Route> routes = routeFinder.getRoutes();
 		return routes.size();
 	}
 
 	public int countRoutesWithMaxStops(char origin, char end, int maxStops){
 		int from = origin - 'A';
 		int to = end - 'A';
-		MaxLenghtRouteFinder routeCounter = new MaxLenghtRouteFinder(to, maxStops); 
-		graph.traverseDepthFirst(from, routeCounter);
-		List<Route> routes = routeCounter.getRoutes();
+		MaxLenghtRouteFinder routeFinder = new MaxLenghtRouteFinder(to, maxStops); 
+		graph.traverseDepthFirst(from, routeFinder);
+		List<Route> routes = routeFinder.getRoutes();
 		return routes.size();
 	}
 
@@ -57,21 +57,12 @@ public class TrainRouter {
 		return route.getDistance();
 	}
 
-//	private void findRoutesWithFixedStops(Integer origin, Integer end, int stopsAmount, Route route) {
-//		Iterator<Relation<Integer, Number>> adyacents = graph.getAdyacentVertices(origin);
-//		while (adyacents.hasNext() && stopsAmount > 0) {
-//			Graph.Relation<Integer,Number> relation = adyacents.next();
-//			Integer vertex = relation.getVertex();
-//			int distance = relation.getEdge().intValue();
-//			route.addStop(vertex, distance);
-//			findRoutesWithFixedStops(vertex, end, stopsAmount-1, route);
-////			route.removeStop(vertex, distance);
-//		}
-//		if(stopsAmount == 0){
-//			if(origin.equals(end)) {
-//				System.out.println(route);
-//			}
-//		}
-//	};
-
+	public int countRoutesWithMaxDistance(char origin, char end, int maxDistance) {
+		int from = origin - 'A';
+		int to = end - 'A';
+		MaxDistanceRouteFinder routeFinder = new MaxDistanceRouteFinder(to, maxDistance); 
+		graph.traverseDepthFirst(from, routeFinder);
+		List<Route> routes = routeFinder.getRoutes();
+		return routes.size();
+	}
 }

@@ -1,44 +1,44 @@
 package com.dridco.examen.train;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.dridco.examen.graph.GraphTraverseHandler;
 
 class MaxDistanceRouteFinder implements GraphTraverseHandler<Integer, Number> {
 
-	private List<List<Integer>> routes = new ArrayList<List<Integer>>();
-	private List<Integer> path = new ArrayList<Integer>();
-	private int distance = 0;
-	private int currDepth = 0;
+	private static Logger logger = Logger.getLogger(FixedLenghtRouteFinder.class.getName());
+
+	private List<Route> routes = new ArrayList<Route>();
+	private Route route = new Route();
 
 	private Integer endVertex;
-	private int l;
+	private int maxDistance;
 	
-	public MaxDistanceRouteFinder(Integer endVertex, int l) {
+	public MaxDistanceRouteFinder(Integer endVertex, int maxDistance) {
 		 this.endVertex = endVertex;
-		 this.l = l;
+		 this.maxDistance = maxDistance;
+	}
+	
+	public List<Route> getRoutes() {
+		return routes;
 	}
 	
 	@Override
 	public boolean visit(Integer vertex, Number cost) {
-		currDepth++;
-		path.add(vertex);
-		distance += cost.intValue();
-		if(endVertex == vertex && currDepth == l) {
-			System.out.println(Arrays.toString(path.toArray()) + " : " + distance);
-			routes.add(path);
-			path = new ArrayList<Integer>();
+		route.addStop(vertex, cost.intValue());
+		boolean continueInDepth = (route.getDistance() < maxDistance);
+		if(endVertex == vertex) {
+			logger.fine("Route found: " + route.toString());
+			routes.add(new Route(route));
 		}
-		return true;
+		return continueInDepth;
 	}
 
 	@Override
 	public void stepUp() {
-		currDepth--;
-		Integer last = path.remove(path.size()-1);
-		distance -= last.intValue();
+		route.removeLastStop();
 	}
 
 }

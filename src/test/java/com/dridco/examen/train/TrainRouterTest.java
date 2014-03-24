@@ -84,8 +84,7 @@ public class TrainRouterTest {
 
 	@Test
 	public void useCase10_Test() {
-//		int routeCount = trainRouter.countRoutesWithMaxDistance('C', 'C', 30);
-//		Assert.assertEquals(7, routeCount);
+		int routeCount = trainRouter.countRoutesWithMaxDistance('C', 'C', 30);
+		Assert.assertEquals(7, routeCount);
 	}
 }
-

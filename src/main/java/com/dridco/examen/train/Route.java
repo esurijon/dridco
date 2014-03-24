@@ -34,7 +34,9 @@ public class Route {
 
 	public void removeLastStop() {
 		distance -= lastDistance;
-		path.remove(path.size()-1);
+		if(path.size()>0) {
+			path.remove(path.size()-1);
+		}
 	};
 	
 	@Override

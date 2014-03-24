@@ -2,11 +2,13 @@ package com.dridco.examen.train;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.dridco.examen.graph.GraphTraverseHandler;
 
 class FixedLenghtRouteFinder implements GraphTraverseHandler<Integer, Number> {
 
+	private static Logger logger = Logger.getLogger(FixedLenghtRouteFinder.class.getName());
 	private List<Route> routes = new ArrayList<Route>();
 	private Route route = new Route();
 	private int currDepth = 0;
@@ -29,7 +31,7 @@ class FixedLenghtRouteFinder implements GraphTraverseHandler<Integer, Number> {
 		currDepth++;
 		boolean continueInDepth = (currDepth < stops);
 		if(!continueInDepth && endVertex == vertex) {
-			System.out.println(route);
+			logger.fine("Route found: " + route.toString());
 			routes.add(new Route(route));
 		}
 		return continueInDepth;
