@@ -25,7 +25,6 @@ abstract class RouteFinder implements GraphTraverseHandler<Integer, Number> {
 
 		if(endVertex == vertex) {
 			Route foundedRoute = new Route(route);
-			System.out.println(foundedRoute);
 			logger.fine("Route found: " + route.toString());
 			routeFound(foundedRoute);
 		}
