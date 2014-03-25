@@ -1,10 +1,8 @@
 package com.dridco.examen.train;
 
-import java.util.Iterator;
 import java.util.List;
 
 import com.dridco.examen.graph.Graph;
-import com.dridco.examen.graph.Graph.Relation;
 import com.dridco.examen.graph.InvalidPathException;
 import com.dridco.examen.graph.MatrixBackedGraph;
 

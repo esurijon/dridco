@@ -1,20 +1,12 @@
 package com.dridco.examen.train;
 
-import java.util.logging.Logger;
 
-import com.dridco.examen.graph.GraphTraverseHandler;
+class ShortestRouteFinder extends RouteFinder {
 
-class ShortestRouteFinder implements GraphTraverseHandler<Integer, Number> {
-
-	private static Logger logger = Logger.getLogger(FixedLenghtRouteFinder.class.getName());
-
-	private Route route = new Route();
 	private Route shortestRoute;
 
-	private Integer endVertex;
-	
 	public ShortestRouteFinder(Integer endVertex) {
-		 this.endVertex = endVertex;
+		 super(endVertex);
 	}
 	
 	public Route getRoute() {
@@ -22,14 +14,16 @@ class ShortestRouteFinder implements GraphTraverseHandler<Integer, Number> {
 	}
 	
 	@Override
-	public boolean visit(Integer vertex, Number cost) {
-		boolean alreadyVisited = route.getPath().contains(vertex);
+	public boolean visit(Integer vertex, Number cost, int depth) {
+		while(depth < route.getSize()) {
+			route.removeLastStop();
+		}
+		boolean alreadyVisited = route.contains(vertex);
 		boolean continueInDepth = !alreadyVisited;
 		if(!alreadyVisited) {
 			route.addStop(vertex, cost.intValue());
 			boolean hasLessDistance = shortestRoute == null || shortestRoute.getDistance() > route.getDistance();
 			if(endVertex == vertex && hasLessDistance ) {
-				logger.fine("Route found: " + route.toString());
 				shortestRoute = new Route(route);
 				continueInDepth = false;
 			}
@@ -38,8 +32,12 @@ class ShortestRouteFinder implements GraphTraverseHandler<Integer, Number> {
 	}
 
 	@Override
-	public void stepUp() {
-		route.removeLastStop();
+	protected void routeFound(Route route) {
+	}
+
+	@Override
+	protected boolean continueDigging(Integer vertex) {
+		return false;
 	}
 
 }

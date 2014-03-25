@@ -7,8 +7,8 @@ import java.util.List;
 public class Route {
 
 	private List<Integer> path = new ArrayList<Integer>();
+	private List<Integer> weights = new ArrayList<Integer>();
 	private int distance;
-	private int lastDistance;
 		
 	public Route() {
 	}
@@ -27,17 +27,23 @@ public class Route {
 	}
 	
 	public void addStop(Integer stop, int distance) {
-		lastDistance = distance;
-		this.distance += distance;
 		path.add(stop);
+		weights.add(distance);
+		this.distance += distance;
 	};
 
 	public void removeLastStop() {
-		distance -= lastDistance;
-		if(path.size()>0) {
-			path.remove(path.size()-1);
-		}
+		path.remove(path.size()-1);
+		distance -= weights.remove(weights.size()-1);
 	};
+	
+	public int getSize() {
+		return path.size();
+	}
+	
+	public boolean contains(Integer stop) {
+		return path.contains(stop);
+	}
 	
 	@Override
 	public String toString() {

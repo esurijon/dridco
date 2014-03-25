@@ -11,12 +11,9 @@ class RouteMeter implements GraphTraverseHandler<Integer, Number> {
 	}
 
 	@Override
-	public boolean visit(Integer vertex, Number cost) {
+	public boolean visit(Integer vertex, Number cost, int depth) {
 		distance += cost.intValue();
 		return true;
 	}
-
-	@Override
-	public void stepUp() {}
 
 }
